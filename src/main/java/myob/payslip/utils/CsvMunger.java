@@ -20,13 +20,18 @@ import java.util.List;
 public final class CsvMunger {
 
     private static final String CSV_COMMA_SEPARATOR = ",";
+    private static final Logger LOGGER = Logger.getLogger(CsvMunger.class);
+
+
+    // dont allow class to be instantiated, as its a util class
+    private CsvMunger() {
+
+    }
 
     //Input (first name, last name, annual salary, super rate (%), payment start date)
     //David,Rudd,60050,9%,01 March – 31 March
 
-    private static final Logger LOGGER = Logger.getLogger(CsvMunger.class);
-
-    public static  List<Employee> readCsv(String filePath) throws IOException {
+    public static List<Employee> readCsv(String filePath) throws IOException {
 
         List<Employee> employeeList = new ArrayList<Employee>();
 
@@ -71,15 +76,19 @@ public final class CsvMunger {
                payslipsRecord.add(employee.getFirstName() + " " + employee.getLastName());
                // TODO: format start date and end dates to match expected
                payslipsRecord.add(employee.getPayslip().getStartDate() + " - " + employee.getPayslip().getEndDate());
-               payslipsRecord.add(employee.getPayslip().getGrossIncome());
-               payslipsRecord.add(employee.getPayslip().getIncomeTax());
-               payslipsRecord.add(employee.getPayslip().getNetIncome());
-               payslipsRecord.add(employee.getPayslip().getIncomeSuper());
+               payslipsRecord.add(employee.getPayslip().getGrossIncome().floatValue());
+               payslipsRecord.add(employee.getPayslip().getIncomeTax().floatValue());
+               payslipsRecord.add(employee.getPayslip().getNetIncome().floatValue());
+               payslipsRecord.add(employee.getPayslip().getIncomeSuper().floatValue());
+
+               System.err.print(payslipsRecord);
 
                csvFilePrinter.printRecord(payslipsRecord);
            }
 
        } catch (IOException e) {
+
+           System.err.print("cant write csv");
            LOGGER.error("Unable to write to the output csv file");
            throw(e);
        }

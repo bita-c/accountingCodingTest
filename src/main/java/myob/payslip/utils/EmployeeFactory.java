@@ -18,11 +18,11 @@ public class EmployeeFactory {
 
         Employee employee = new Employee();
 
-        String firstName = csvRecord.get(InputCsvColumn.FIRST_NAME);
-        String lastName = csvRecord.get(InputCsvColumn.LAST_NAME);
-        String annualSalary = csvRecord.get(InputCsvColumn.ANNUAL_SALARY);
-        String superRate = csvRecord.get(InputCsvColumn.SUPER_RATE);
-        String paymentPeriod = csvRecord.get(InputCsvColumn.PAYMENT_PERIOD);
+        String firstName = csvRecord.get(InputCsvColumn.FIRST_NAME.getColumnIndex());
+        String lastName = csvRecord.get(InputCsvColumn.LAST_NAME.getColumnIndex());
+        String annualSalary = csvRecord.get(InputCsvColumn.ANNUAL_SALARY.getColumnIndex());
+        String superRate = csvRecord.get(InputCsvColumn.SUPER_RATE.getColumnIndex());
+        String paymentPeriod = csvRecord.get(InputCsvColumn.PAYMENT_PERIOD.getColumnIndex());
 
         // Check input.
         if (firstName == null || firstName.trim().isEmpty()) {
@@ -42,9 +42,17 @@ public class EmployeeFactory {
         }
 
         // break up the date string 01 March – 31 March, get the start and end dates
-        String[] paymentDates = paymentPeriod.split("-");
-        String paymentStartDate = paymentDates[0];
-        String paymentEndDate = paymentDates[1];
+        String[] paymentDates = paymentPeriod.split("–");
+        String paymentStartDate = null;
+        String paymentEndDate = null;
+        if (paymentDates.length > 0) {
+             paymentStartDate = paymentDates[0];
+            if (paymentDates.length > 1) {
+                paymentEndDate = paymentDates[1];
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid input: paymentPeriod format not matching: dd MMMM - dd MMMM");
+        }
 
         DateFormat dateFormat = new SimpleDateFormat("dd MMMM");
         Date paymentStartDateConverted;
