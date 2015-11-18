@@ -1,7 +1,7 @@
 
 package myob.payslip.utils;
 
-import myob.payslip.enums.CsvColumn;
+import myob.payslip.enums.InputCsvColumn;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
@@ -22,9 +22,9 @@ public final class CsvMunger {
 
     private static final Logger LOGGER = Logger.getLogger(CsvMunger.class);
 
-    public static List<Map<CsvColumn, String>> readCsv() throws IOException {
+    public static List<Map<InputCsvColumn, String>> readCsv() throws IOException {
 
-        List<Map<CsvColumn, String>> employeeList = new ArrayList<Map<CsvColumn, String>>();
+        List<Map<InputCsvColumn, String>> employeeList = new ArrayList<Map<InputCsvColumn, String>>();
 
         try {
             Reader fileReader = new FileReader("path/to/file.csv");
@@ -32,13 +32,13 @@ public final class CsvMunger {
 
             for (CSVRecord record : records) {
 
-                Map<CsvColumn, String> ColumnNamesValuesMap = new HashMap<CsvColumn, String>();
+                Map<InputCsvColumn, String> ColumnNamesValuesMap = new HashMap<InputCsvColumn, String>();
 
-                String firstName = record.get(CsvColumn.FIRST_NAME);
-                String lastName = record.get(CsvColumn.LAST_NAME);
-                String annualSalary = record.get(CsvColumn.ANNUAL_SALARY);
-                String superRate = record.get(CsvColumn.SUPER_RATE);
-                String paymentPeriod = record.get(CsvColumn.PAYMENT_PERIOD);
+                String firstName = record.get(InputCsvColumn.FIRST_NAME);
+                String lastName = record.get(InputCsvColumn.LAST_NAME);
+                String annualSalary = record.get(InputCsvColumn.ANNUAL_SALARY);
+                String superRate = record.get(InputCsvColumn.SUPER_RATE);
+                String paymentPeriod = record.get(InputCsvColumn.PAYMENT_PERIOD);
 
                 // Check input.
                 if (firstName == null || firstName.trim().isEmpty()) {
@@ -57,11 +57,11 @@ public final class CsvMunger {
                     throw new IllegalArgumentException("Invalid input: paymentPeriod is NULL or empty");
                 }
 
-                ColumnNamesValuesMap.put(CsvColumn.FIRST_NAME, firstName);
-                ColumnNamesValuesMap.put(CsvColumn.LAST_NAME, lastName);
-                ColumnNamesValuesMap.put(CsvColumn.ANNUAL_SALARY, annualSalary);
-                ColumnNamesValuesMap.put(CsvColumn.SUPER_RATE, superRate);
-                ColumnNamesValuesMap.put(CsvColumn.PAYMENT_PERIOD, paymentPeriod);
+                ColumnNamesValuesMap.put(InputCsvColumn.FIRST_NAME, firstName);
+                ColumnNamesValuesMap.put(InputCsvColumn.LAST_NAME, lastName);
+                ColumnNamesValuesMap.put(InputCsvColumn.ANNUAL_SALARY, annualSalary);
+                ColumnNamesValuesMap.put(InputCsvColumn.SUPER_RATE, superRate);
+                ColumnNamesValuesMap.put(InputCsvColumn.PAYMENT_PERIOD, paymentPeriod);
                 employeeList.add(ColumnNamesValuesMap);
             }
 
@@ -80,6 +80,9 @@ public final class CsvMunger {
 
     // Ryan,Chen,120000,10%,01 March – 31 March
     public static void writeCsv() {
+
+        //final Appendable out = "";
+        //final CSVPrinter printer = CSVFormat.DEFAULT.withHeader("H1", "H2").print(out);
 
     }
 

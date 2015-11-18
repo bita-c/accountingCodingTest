@@ -1,6 +1,6 @@
 package myob.payslip.enums;
 
-public enum CsvColumn {
+public enum InputCsvColumn {
 
     FIRST_NAME(0),
     LAST_NAME(1),
@@ -10,7 +10,7 @@ public enum CsvColumn {
 
     private int columnIndex;
 
-    private CsvColumn(int columnIndex) {
+    private InputCsvColumn(int columnIndex) {
         this.columnIndex = columnIndex;
     }
 
