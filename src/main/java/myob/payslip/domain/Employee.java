@@ -1,8 +1,6 @@
 package myob.payslip.domain;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Employee {
     
@@ -14,7 +12,7 @@ public class Employee {
     private BigDecimal annualSalary;
     private BigDecimal superRate;
 
-    private List<Payslip> payslips = new ArrayList<Payslip>();
+    private Payslip payslips = new Payslip();
 
     public String getFirstName() {
         return firstName;
@@ -48,11 +46,11 @@ public class Employee {
         this.superRate = superRate;
     }
 
-    public void setPayslips(List<Payslip> payslips) {
+    public void setPayslip(Payslip payslips) {
         this.payslips = payslips;
     }
 
-    public List<Payslip> getPayslips() {
+    public Payslip getPayslip() {
         return payslips;
     }
 }
