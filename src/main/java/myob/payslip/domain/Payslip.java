@@ -9,6 +9,7 @@ public class Payslip {
     //pay period,  gross income, income tax, net income and super.
     
     private Date startDate;
+    private Date endDate;
     private BigDecimal grossIncome;
     private BigDecimal incomeTax;
     private BigDecimal netIncome;
@@ -16,6 +17,10 @@ public class Payslip {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public void setGrossIncome(BigDecimal grossIncome) {
@@ -36,6 +41,10 @@ public class Payslip {
 
     public Date getStartDate() {
         return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
     }
 
     public BigDecimal getGrossIncome() {

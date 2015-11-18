@@ -1,7 +1,5 @@
 package myob.payslip.enums;
 
-import java.math.BigDecimal;
-
 public enum IncomeTaxBracket {
    
     BRACKET_0(0, 0, 0),
@@ -18,6 +16,14 @@ public enum IncomeTaxBracket {
         this.lowerThreshold = lowerThreshold;
         this.baseTaxAmount = baseTaxAmount;
         this.additionalTax = additionalTax;
+    }
+
+    public float getBaseTaxAmount() {
+        return this.baseTaxAmount;
+    }
+
+    public float getLowerThreshold() {
+        return this.lowerThreshold;
     }
 
     public static IncomeTaxBracket getTaxBracket(float income) {

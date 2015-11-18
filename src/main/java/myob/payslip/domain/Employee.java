@@ -1,5 +1,9 @@
 package myob.payslip.domain;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employee {
     
     //first name, last name, annual salary(positive integer) 
@@ -7,8 +11,10 @@ public class Employee {
       
     private String firstName;
     private String lastName;
-    private float annualSalary;
-    private float superRate;
+    private BigDecimal annualSalary;
+    private BigDecimal superRate;
+
+    private List<Payslip> payslips = new ArrayList<Payslip>();
 
     public String getFirstName() {
         return firstName;
@@ -18,11 +24,11 @@ public class Employee {
         return lastName;
     }
 
-    public float getAnnualSalary() {
+    public BigDecimal getAnnualSalary() {
         return annualSalary;
     }
 
-    public float getSuperRate() {
+    public BigDecimal getSuperRate() {
         return superRate;
     }
 
@@ -34,11 +40,19 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public void setAnnualSalary(float annualSalary) {
+    public void setAnnualSalary(BigDecimal annualSalary) {
         this.annualSalary = annualSalary;
     }
 
-    public void setSuperRate(float superRate) {
+    public void setSuperRate(BigDecimal superRate) {
         this.superRate = superRate;
-    }    
+    }
+
+    public void setPayslips(List<Payslip> payslips) {
+        this.payslips = payslips;
+    }
+
+    public List<Payslip> getPayslips() {
+        return payslips;
+    }
 }
