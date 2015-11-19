@@ -4,10 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Payslip {
-    
-    // payslip information with name, 
-    //pay period,  gross income, income tax, net income and super.
-    
+
     private Date startDate;
     private Date endDate;
     private BigDecimal grossIncome;

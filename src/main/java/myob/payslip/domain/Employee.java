@@ -5,16 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
-    
-    //first name, last name, annual salary(positive integer) 
-    //and super rate(0% - 50% inclusive), payment start date, 
       
     private String firstName;
     private String lastName;
     private BigDecimal annualSalary;
     private BigDecimal superRate;
 
-   // private Payslip payslips = new Payslip();
     private List<Payslip> payslips = new ArrayList<Payslip>();
 
     public String getFirstName() {

@@ -5,7 +5,6 @@ import java.util.List;
 
 public enum OutputCsvColumn {
 
-    //Output (name, pay period, gross income, income tax, net income, super)
     NAME("name"),
     PAY_PERIOD("pay period"),
     GROSS_INCOME("gross income"),
@@ -32,6 +31,4 @@ public enum OutputCsvColumn {
         }
         return result;
     }
-
-
 }
