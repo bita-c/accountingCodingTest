@@ -1,6 +1,7 @@
 package myob.payslip.utils;
 
 import myob.payslip.domain.Employee;
+import myob.payslip.healper.TestHelper;
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,8 +18,9 @@ import static org.junit.Assert.assertNotNull;
 
 public class EmployeeFactoryTest {
 
-    //TODO
-    private String csvFilePath = "/Users/bcrosby/workspace/myobExercise/src/test/resources/csv/valid-and-invalid-input.csv";
+    private String csvFile = "/csv/valid-and-invalid-input.csv";
+
+    private String csvFilePath = TestHelper.getFilePath(csvFile).getPath();
 
     private List<CSVRecord> csvRecords;
 

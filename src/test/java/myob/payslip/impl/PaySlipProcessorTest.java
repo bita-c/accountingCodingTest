@@ -1,5 +1,6 @@
 package myob.payslip.impl;
 
+import myob.payslip.healper.TestHelper;
 import myob.payslip.utils.CsvMunger;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -13,9 +14,11 @@ import static org.junit.Assert.assertEquals;
 
 public class PayslipProcessorTest {
 
-    //TODO: fix this
-    private String csvInputFilePath = "/Users/bcrosby/workspace/myobExercise/src/test/resources/csv/valid-input.csv";
-    private String csvOutputFilePath = "/Users/bcrosby/workspace/myobExercise/src/test/resources/csv/valid-output.csv";
+    private String csvInputFile = "/csv/valid-input.csv";
+    private String csvOutputFile = "/csv/valid-output.csv";
+
+    private String csvInputFilePath = TestHelper.getFilePath(csvInputFile).getPath();
+    private String csvOutputFilePath = TestHelper.getFilePath(csvOutputFile).getPath();
 
     @Test
     public void testPayslipProcessing() throws IOException {

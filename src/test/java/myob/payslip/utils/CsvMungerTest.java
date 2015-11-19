@@ -14,16 +14,18 @@ import static org.junit.Assert.fail;
 
 public class CsvMungerTest {
 
-    // TODO: inject this via spring
-    private String validFilePath = "/Users/bcrosby/workspace/myobExercise/src/test/resources/csv/valid-input.csv";
-    private String invalidFilePath = "./valid-input.csv";
+    private String validCsvFile = "/csv/valid-input.csv";
+    private String invalidCsvFile = "./valid-input.csv";
+    private String outputTestFile = "src/test/resources/csv/test-output.csv";
+
+    private String validCsvFilePath = TestHelper.getFilePath(validCsvFile).getPath();
 
     @Test
     public void testSuccessCsvRead() throws IOException{
         int expectedRecordsCount  = 3;
         int expectedCSVRecordSize = 5;
 
-        List<CSVRecord> csvRecords = CsvMunger.readCsv(validFilePath);
+        List<CSVRecord> csvRecords = CsvMunger.readCsv(validCsvFilePath);
 
         // Ensure we have the correct number of rows
         assertEquals("Unexpected Number of records", expectedRecordsCount, csvRecords.size());
@@ -38,7 +40,7 @@ public class CsvMungerTest {
     public void testFailureCsvRead_UnableToFindInputFile() {
 
         try {
-            CsvMunger.readCsv(invalidFilePath);
+            CsvMunger.readCsv(invalidCsvFile);
             fail("Expected Exception not thrown");
         } catch (IOException e) {
             assertTrue("Expected FileNotFoundException not thrown", e instanceof FileNotFoundException);
@@ -47,9 +49,6 @@ public class CsvMungerTest {
 
     @Test
     public void testSuccessCsvWrite() throws IOException{
-
-        // TODO: put it under resources
-        String outputFilePath = "./test-output.csv";
 
         String expectedHeader0 = "name";
         String expectedHeader1 = "pay period";
@@ -68,9 +67,9 @@ public class CsvMungerTest {
         int expectedRecordsCount  = 2;
         int expectedCSVRecordSize = 6;
 
-        CsvMunger.writeCsv(TestHelper.createEmployeeList(), outputFilePath);
+        CsvMunger.writeCsv(TestHelper.createEmployeeList(), outputTestFile);
 
-        List<CSVRecord> csvRecords = CsvMunger.readCsv(outputFilePath);
+        List<CSVRecord> csvRecords = CsvMunger.readCsv(outputTestFile);
 
         // Ensure we have the correct number of rows
         assertEquals("Unexpected Number of records", expectedRecordsCount, csvRecords.size());

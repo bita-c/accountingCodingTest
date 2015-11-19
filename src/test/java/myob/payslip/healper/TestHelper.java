@@ -4,6 +4,8 @@ import myob.payslip.domain.Employee;
 import myob.payslip.domain.Payslip;
 
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +15,18 @@ public final class TestHelper {
 
     private TestHelper() {
 
+    }
+
+    public static URI getFilePath(String fileName) {
+
+        URI result;
+        try {
+            URL url = TestHelper.class.getResource(fileName);
+            result = url.toURI();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to read file ");
+        }
+        return result;
     }
 
     public static List<Employee> createEmployeeList() {
