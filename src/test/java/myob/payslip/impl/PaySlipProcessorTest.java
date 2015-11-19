@@ -14,16 +14,11 @@ public class PaySlipProcessorTest {
     public void setup() {
         // Create the object instance to do testing with.
         PayslipProcessor payslipProcessor = new PayslipProcessor();
-
     }
 
     @After
     public void tearDown() {
 
     }
-
-
-
-
 
 }

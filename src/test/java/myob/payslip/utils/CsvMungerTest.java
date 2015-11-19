@@ -55,6 +55,7 @@ public class CsvMungerTest {
     @Test
     public void testSuccessCsvWrite() throws IOException, ParseException {
 
+        // TODO: put it under resources
         String outputFilePath = "./test-output.csv";
 
         String expectedHeader0 = "name";

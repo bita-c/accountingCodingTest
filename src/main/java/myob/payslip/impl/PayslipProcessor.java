@@ -1,5 +1,6 @@
 package myob.payslip.impl;
 
+import myob.payslip.Exception.PayslipProcessingException;
 import myob.payslip.domain.Employee;
 import myob.payslip.domain.Payslip;
 import myob.payslip.utils.CsvMunger;
@@ -22,21 +23,18 @@ public class PayslipProcessor {
         String inputCsvPath = "/Users/bcrosby/workspace/myobExercise/src/main/resources/csv/input.csv";
         String outputCsvPath = "/Users/bcrosby/workspace/myobExercise/src/main/resources/csv/output.csv";
 
-
         // use spring to wire things up
         // read the location of the input and output csv files
 
         // call the csvmunger and get the Employees created
         List<Employee>  employees = new ArrayList<Employee>();
-        List<CSVRecord> csvRecords = new ArrayList<CSVRecord>();
+        List<CSVRecord> csvRecords;
         try {
             csvRecords = CsvMunger.readCsv(inputCsvPath);
 
         } catch(IOException e ) {
-
-            System.err.print("enable to read input");
-          // create own exception class and throw appropriately
-
+            LOGGER.error("Unable to read from input file: " + inputCsvPath);
+            throw new PayslipProcessingException(e.getMessage());
         }
 
         for (CSVRecord record : csvRecords) {

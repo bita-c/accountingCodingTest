@@ -17,6 +17,10 @@ public class EmployeeFactory {
     // creates employee objects from the csv rows
     public static Employee createEmployee(CSVRecord csvRecord) {
 
+        if (csvRecord == null) {
+            throw new IllegalArgumentException("Invalid input: CSVRecord is NULL");
+        }
+
         Employee employee = new Employee();
 
         String firstName = csvRecord.get(InputCsvColumn.FIRST_NAME.getColumnName());
@@ -27,62 +31,19 @@ public class EmployeeFactory {
 
         // Check input.
         if (firstName == null || firstName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid input: firstName is NULL or empty");
+            throw new IllegalArgumentException("Invalid CSVRecord: firstName is NULL or empty");
         }
         if (lastName == null || lastName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid input: lastName is NULL or empty");
+            throw new IllegalArgumentException("Invalid CSVRecord: lastName is NULL or empty");
         }
         if (annualSalary == null || annualSalary.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid input: annualSalary is NULL or empty");
+            throw new IllegalArgumentException("Invalid CSVRecord: annualSalary is NULL or empty");
         }
         if (superRate == null || superRate.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid input: superRate is NULL or empty");
+            throw new IllegalArgumentException("Invalid CSVRecord: superRate is NULL or empty");
         }
         if (paymentPeriod == null || paymentPeriod.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid input: paymentPeriod is NULL or empty");
-        }
-
-        // break up the date string 01 March – 31 March, get the start and end dates
-        String[] paymentDates = paymentPeriod.split("–");
-        String paymentStartDate = null;
-        String paymentEndDate = null;
-
-        // we might only have the start date provided, so check to make sure
-        if (paymentDates.length > 0) {
-             paymentStartDate = paymentDates[0];
-            if (paymentDates.length > 1) {
-                paymentEndDate = paymentDates[1];
-            }
-        } else {
-            throw new IllegalArgumentException("Invalid input: paymentPeriod format not matching: dd MMMM - dd MMMM");
-        }
-
-       // manipulate the dates to add current year
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        String yearInString = String.valueOf(year);
-
-
-        DateFormat dateFormat = new SimpleDateFormat("dd MMMM y");
-        Date paymentStartDateConverted;
-        Date paymentEndDateConverted ;
-        try {
-            paymentStartDateConverted = dateFormat.parse(paymentStartDate);
-            paymentEndDateConverted = dateFormat.parse(paymentEndDate);
-
-        } catch (ParseException e) {
-
-            // if year is not provided then add the current year and parse again
-            paymentStartDate += " " + yearInString;
-            paymentEndDate += " " + yearInString;
-
-            try {
-                paymentStartDateConverted = dateFormat.parse(paymentStartDate);
-                paymentEndDateConverted = dateFormat.parse(paymentEndDate);
-
-            } catch (ParseException e2) {
-                throw new IllegalArgumentException("Invalid input: date format invalid: Not matching 'dd MMMM' or 'dd MMMM y'");
-            }
+            throw new IllegalArgumentException("Invalid CSVRecord: paymentPeriod is NULL or empty");
         }
 
         BigDecimal superRateDecimal = new BigDecimal(superRate.trim().replace("%", "")).divide(BigDecimal.valueOf(100));
@@ -92,11 +53,24 @@ public class EmployeeFactory {
             throw new IllegalArgumentException("Invalid superRate value: " + superRateDecimal);
         }
 
+        // break up the date string dd MMMM – dd MMMM, get the start and end dates
+        String[] paymentDates = paymentPeriod.split("–");
+        String paymentStartDate;
+        String paymentEndDate;
+        if (paymentDates.length > 1) {
+            paymentStartDate = paymentDates[0];
+            paymentEndDate = paymentDates[1];
+        } else {
+            throw new IllegalArgumentException("Invalid CSVRecord: paymentPeriod format not like: dd MMMM - dd MMMM");
+        }
+
+        Date paymentStartDateConverted = convertToAcceptedFormat(paymentStartDate);
+        Date paymentEndDateConverted = convertToAcceptedFormat(paymentEndDate);
+
         employee.setFirstName(firstName);
         employee.setLastName(lastName);
         employee.setAnnualSalary(new BigDecimal(annualSalary));
         employee.setSuperRate(superRateDecimal);
-
 
         Payslip payslip = new Payslip();
         payslip.setStartDate(paymentStartDateConverted);
@@ -105,5 +79,29 @@ public class EmployeeFactory {
         employee.getPayslips().add(payslip);
 
         return employee;
+    }
+
+    private static Date convertToAcceptedFormat(String date) {
+
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        String yearInString = String.valueOf(year);
+
+        DateFormat dateFormat = new SimpleDateFormat("dd MMMM y");
+        Date convertedDate;
+        try {
+            convertedDate = dateFormat.parse(date);
+
+        } catch (ParseException e) {
+
+            // if year is not provided then add the current year and parse again
+            date += " " + yearInString;
+            try {
+                convertedDate = dateFormat.parse(date);
+            } catch (ParseException e2) {
+                throw new IllegalArgumentException("Invalid date format: Not matching 'dd MMMM' or 'dd MMMM y'");
+            }
+        }
+        return convertedDate;
     }
 }
