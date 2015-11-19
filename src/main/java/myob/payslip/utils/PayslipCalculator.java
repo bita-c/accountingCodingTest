@@ -1,7 +1,5 @@
 package myob.payslip.utils;
 
-import myob.payslip.domain.Employee;
-import myob.payslip.domain.Payslip;
 import myob.payslip.enums.IncomeTaxBracket;
 import org.apache.log4j.Logger;
 
@@ -15,31 +13,21 @@ public class PayslipCalculator {
     private PayslipCalculator() {
     }
 
-    public static BigDecimal calculateGrossIncome(Employee employee) {
-
-        if (employee == null) {
-            throw new IllegalArgumentException("Invalid Employee: NULL");
-        }
+    public static BigDecimal calculateGrossIncome(BigDecimal annualSalary) {
 
         BigDecimal result = BigDecimal.ZERO;
-        if (employee.getAnnualSalary() != null) {
-            result = employee.getAnnualSalary().divide(MONTHS_IN_YEAR, BigDecimal.ROUND_HALF_UP);
+        if (annualSalary != null) {
+            result = annualSalary.divide(MONTHS_IN_YEAR, BigDecimal.ROUND_HALF_UP);
         } else {
             LOGGER.warn("Invalid AnnualSalary set for Employee: NULL");
         }
-        return result;
+        return result.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
-    public static BigDecimal calculateIncomeTax(Employee employee) {
-
-        if (employee == null) {
-            throw new IllegalArgumentException("Invalid Employee: NULL");
-        }
+    public static BigDecimal calculateIncomeTax(BigDecimal annualSalary) {
 
         BigDecimal result = BigDecimal.ZERO;
-        BigDecimal annualSalary = employee.getAnnualSalary();
         if (annualSalary != null) {
-
             IncomeTaxBracket taxBracket = IncomeTaxBracket.getTaxBracket(annualSalary);
 
             BigDecimal amountOver = annualSalary.subtract(taxBracket.getLowerThreshold());
@@ -51,18 +39,12 @@ public class PayslipCalculator {
         } else {
             LOGGER.warn("Invalid AnnualSalary set for Employee: NULL");
         }
-        return result;
+        return result.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
-    public static BigDecimal calculateNetIncome(Payslip payslip) {
-
-        if (payslip == null) {
-            throw new IllegalArgumentException("Invalid Payslip: NULL");
-        }
+    public static BigDecimal calculateNetIncome(BigDecimal grossIncome, BigDecimal incomeTax) {
 
         BigDecimal result = BigDecimal.ZERO;
-        BigDecimal grossIncome =  payslip.getGrossIncome();
-        BigDecimal incomeTax =  payslip.getIncomeTax();
 
         if (grossIncome != null && incomeTax != null) {
             result =  grossIncome.subtract(incomeTax);
@@ -70,21 +52,12 @@ public class PayslipCalculator {
         } else {
             LOGGER.warn("Invalid grossIncome or incomeTax set for Employee: NULL");
         }
-        return result;
+        return result.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
-    public static BigDecimal calculateSuper(Employee employee, Payslip payslip) {
-
-        if (employee == null) {
-            throw new IllegalArgumentException("Invalid Employee: NULL");
-        }
-        if (payslip == null) {
-            throw new IllegalArgumentException("Invalid Payslip: NULL");
-        }
+    public static BigDecimal calculateSuper(BigDecimal superRate, BigDecimal grossIncome) {
 
         BigDecimal result = BigDecimal.ZERO;
-        BigDecimal grossIncome = payslip.getGrossIncome();
-        BigDecimal superRate = employee.getSuperRate();
 
         if (grossIncome != null) {
 
@@ -100,6 +73,6 @@ public class PayslipCalculator {
             LOGGER.warn("Invalid grossIncome set for Employee: NULL");
         }
 
-        return result;
+        return result.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 }

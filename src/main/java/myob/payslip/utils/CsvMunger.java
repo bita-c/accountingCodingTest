@@ -16,7 +16,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,10 +91,10 @@ public final class CsvMunger {
 
                    payslipsRecord.add(formattedStartDate + " - " + formattedEndDate);
 
-                   payslipsRecord.add( payslip.getGrossIncome().setScale(0, BigDecimal.ROUND_HALF_UP));
-                   payslipsRecord.add(payslip.getIncomeTax().setScale(0, BigDecimal.ROUND_HALF_UP));
-                   payslipsRecord.add(payslip.getNetIncome().setScale(0, BigDecimal.ROUND_HALF_UP));
-                   payslipsRecord.add(payslip.getIncomeSuper().setScale(0, BigDecimal.ROUND_HALF_UP));
+                   payslipsRecord.add( payslip.getGrossIncome());
+                   payslipsRecord.add(payslip.getIncomeTax());
+                   payslipsRecord.add(payslip.getNetIncome());
+                   payslipsRecord.add(payslip.getIncomeSuper());
                }
                csvFilePrinter.printRecord(payslipsRecord);
            }

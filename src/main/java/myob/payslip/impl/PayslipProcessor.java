@@ -46,10 +46,10 @@ public class PayslipProcessor {
 
             for (Payslip payslip : employee.getPayslips()) {
 
-                payslip.setGrossIncome(PayslipCalculator.calculateGrossIncome(employee));
-                payslip.setIncomeTax(PayslipCalculator.calculateIncomeTax(employee));
-                payslip.setNetIncome(PayslipCalculator.calculateNetIncome(payslip));
-                payslip.setIncomeSuper(PayslipCalculator.calculateSuper(employee, payslip));
+                payslip.setGrossIncome(PayslipCalculator.calculateGrossIncome(employee.getAnnualSalary()));
+                payslip.setIncomeTax(PayslipCalculator.calculateIncomeTax(employee.getAnnualSalary()));
+                payslip.setNetIncome(PayslipCalculator.calculateNetIncome(payslip.getGrossIncome(), payslip.getIncomeTax()));
+                payslip.setIncomeSuper(PayslipCalculator.calculateSuper(employee.getSuperRate(), payslip.getGrossIncome()));
             }
         }
 

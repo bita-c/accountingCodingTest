@@ -1,18 +1,11 @@
 package myob.payslip.utils;
 
-import myob.payslip.domain.Employee;
-import myob.payslip.domain.Payslip;
+import myob.payslip.healper.TestHelper;
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -53,7 +46,7 @@ public class CsvMungerTest {
     }
 
     @Test
-    public void testSuccessCsvWrite() throws IOException, ParseException {
+    public void testSuccessCsvWrite() throws IOException{
 
         // TODO: put it under resources
         String outputFilePath = "./test-output.csv";
@@ -75,7 +68,7 @@ public class CsvMungerTest {
         int expectedRecordsCount  = 2;
         int expectedCSVRecordSize = 6;
 
-        CsvMunger.writeCsv(employeeListCreator(), outputFilePath);
+        CsvMunger.writeCsv(TestHelper.createEmployeeList(), outputFilePath);
 
         List<CSVRecord> csvRecords = CsvMunger.readCsv(outputFilePath);
 
@@ -102,34 +95,4 @@ public class CsvMungerTest {
         assertEquals("Unexpected value at index 4 of row 1", expectedRow1Column4, row1.get(4));
         assertEquals("Unexpected value at index 5 of row 1", expectedRow1Column5, row1.get(5));
     }
-
-    private List<Employee> employeeListCreator() throws ParseException {
-
-        Employee employeeA = new Employee();
-
-        List<Employee> employees = new ArrayList<Employee>();
-
-        employeeA.setFirstName("firstNameA");
-        employeeA.setLastName("lastNameA");
-        employeeA.setSuperRate(new BigDecimal(0.9));
-        employeeA.setAnnualSalary(new BigDecimal(50000));
-
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-        Date startDate = formatter.parse("01/01/15");
-        Date endDate = formatter.parse("31/01/15");
-
-        Payslip payslipA1 = new Payslip();
-        payslipA1.setStartDate(startDate);
-        payslipA1.setEndDate(endDate);
-        payslipA1.setGrossIncome(new BigDecimal(40000));
-        payslipA1.setIncomeSuper(new BigDecimal(50));
-        payslipA1.setNetIncome(new BigDecimal(30000));
-        payslipA1.setIncomeTax(new BigDecimal(100));
-
-        employeeA.getPayslips().add(payslipA1);
-        employees.add(employeeA);
-
-        return employees;
-    }
-
 }
