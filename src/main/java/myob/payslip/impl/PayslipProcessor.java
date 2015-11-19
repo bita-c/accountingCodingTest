@@ -1,14 +1,18 @@
 package myob.payslip.impl;
 
 import myob.payslip.domain.Employee;
+import myob.payslip.domain.Payslip;
 import myob.payslip.utils.CsvMunger;
 import myob.payslip.utils.PayslipCalculator;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PayslipProcessor {
+
+    private static final Logger LOGGER = Logger.getLogger(PayslipProcessor.class);
 
     public static void processPaySlips() {
 
@@ -35,10 +39,13 @@ public class PayslipProcessor {
         // process each employee and calculate payslip values
         for (Employee employee : employees) {
 
-            employee.getPayslip().setGrossIncome(PayslipCalculator.calculateGrossIncome(employee));
-            employee.getPayslip().setIncomeTax(PayslipCalculator.calculateIncomeTax(employee));
-            employee.getPayslip().setNetIncome(PayslipCalculator.calculateNetIncome(employee));
-            employee.getPayslip().setIncomeSuper(PayslipCalculator.calculateSuper(employee));
+            for (Payslip payslip : employee.getPayslips()) {
+
+                payslip.setGrossIncome(PayslipCalculator.calculateGrossIncome(employee));
+                payslip.setIncomeTax(PayslipCalculator.calculateIncomeTax(employee));
+                payslip.setNetIncome(PayslipCalculator.calculateNetIncome(payslip));
+                payslip.setIncomeSuper(PayslipCalculator.calculateSuper(employee, payslip));
+            }
         }
 
         // call the csvmunger and print the employees

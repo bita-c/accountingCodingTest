@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class EmployeeFactory {
@@ -18,11 +19,11 @@ public class EmployeeFactory {
 
         Employee employee = new Employee();
 
-        String firstName = csvRecord.get(InputCsvColumn.FIRST_NAME.getColumnIndex());
-        String lastName = csvRecord.get(InputCsvColumn.LAST_NAME.getColumnIndex());
-        String annualSalary = csvRecord.get(InputCsvColumn.ANNUAL_SALARY.getColumnIndex());
-        String superRate = csvRecord.get(InputCsvColumn.SUPER_RATE.getColumnIndex());
-        String paymentPeriod = csvRecord.get(InputCsvColumn.PAYMENT_PERIOD.getColumnIndex());
+        String firstName = csvRecord.get(InputCsvColumn.FIRST_NAME.getColumnName());
+        String lastName = csvRecord.get(InputCsvColumn.LAST_NAME.getColumnName());
+        String annualSalary = csvRecord.get(InputCsvColumn.ANNUAL_SALARY.getColumnName());
+        String superRate = csvRecord.get(InputCsvColumn.SUPER_RATE.getColumnName());
+        String paymentPeriod = csvRecord.get(InputCsvColumn.PAYMENT_PERIOD.getColumnName());
 
         // Check input.
         if (firstName == null || firstName.trim().isEmpty()) {
@@ -45,6 +46,8 @@ public class EmployeeFactory {
         String[] paymentDates = paymentPeriod.split("–");
         String paymentStartDate = null;
         String paymentEndDate = null;
+
+        // we might only have the start date provided, so check to make sure
         if (paymentDates.length > 0) {
              paymentStartDate = paymentDates[0];
             if (paymentDates.length > 1) {
@@ -54,7 +57,13 @@ public class EmployeeFactory {
             throw new IllegalArgumentException("Invalid input: paymentPeriod format not matching: dd MMMM - dd MMMM");
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("dd MMMM");
+       // manipulate the dates to add current year
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        String yearInString = String.valueOf(year);
+
+
+        DateFormat dateFormat = new SimpleDateFormat("dd MMMM y");
         Date paymentStartDateConverted;
         Date paymentEndDateConverted ;
         try {
@@ -62,7 +71,18 @@ public class EmployeeFactory {
             paymentEndDateConverted = dateFormat.parse(paymentEndDate);
 
         } catch (ParseException e) {
-            throw new IllegalArgumentException("Invalid input: paymentPeriod format not matching: dd MMMM");
+
+            // if year is not provided then add the current year and parse again
+            paymentStartDate += " " + yearInString;
+            paymentEndDate += " " + yearInString;
+
+            try {
+                paymentStartDateConverted = dateFormat.parse(paymentStartDate);
+                paymentEndDateConverted = dateFormat.parse(paymentEndDate);
+
+            } catch (ParseException e2) {
+                throw new IllegalArgumentException("Invalid input: date format invalid: Not matching 'dd MMMM' or 'dd MMMM y'");
+            }
         }
 
         BigDecimal superRateDecimal = new BigDecimal(superRate.trim().replace("%", "")).divide(BigDecimal.valueOf(100));
@@ -74,13 +94,15 @@ public class EmployeeFactory {
 
         employee.setFirstName(firstName);
         employee.setLastName(lastName);
+        employee.setAnnualSalary(new BigDecimal(annualSalary));
         employee.setSuperRate(superRateDecimal);
+
 
         Payslip payslip = new Payslip();
         payslip.setStartDate(paymentStartDateConverted);
         payslip.setEndDate(paymentEndDateConverted);
 
-        employee.setPayslip(payslip);
+        employee.getPayslips().add(payslip);
 
         return employee;
     }

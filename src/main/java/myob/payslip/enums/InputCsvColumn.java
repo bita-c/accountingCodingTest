@@ -2,20 +2,30 @@ package myob.payslip.enums;
 
 public enum InputCsvColumn {
 
-    FIRST_NAME(0),
-    LAST_NAME(1),
-    ANNUAL_SALARY(2),
-    SUPER_RATE(3),
-    PAYMENT_PERIOD(4);
+    FIRST_NAME("first name"),
+    LAST_NAME("last name"),
+    ANNUAL_SALARY("annual salary"),
+    SUPER_RATE("super rate (%)"),
+    PAYMENT_PERIOD("payment start date");
 
-    private int columnIndex;
+    private String columnName;
 
-    private InputCsvColumn(int columnIndex) {
-        this.columnIndex = columnIndex;
+    private InputCsvColumn(String columnName) {
+        this.columnName = columnName;
     }
 
-    public int getColumnIndex() {
-        return this.columnIndex;
+    public String getColumnName() {
+        return this.columnName;
+    }
+
+    public static String[] getColumnNames() {
+        String[] result = new String[values().length];
+        int counter = 0;
+        for (InputCsvColumn csvColumn : values()) {
+            result[counter] = csvColumn.getColumnName();
+            counter++;
+        }
+        return result;
     }
 
 

@@ -33,10 +33,9 @@ public enum IncomeTaxBracket {
     }
 
     public static IncomeTaxBracket getTaxBracket(BigDecimal income) {
-        IncomeTaxBracket correctTaxBracket = BRACKET_1;
-        for (IncomeTaxBracket taxBracket : values()) {
-           // if (income.floatValue() >= taxBracket.lowerThreshold.floatValue()) {
-            if (income.compareTo(taxBracket.lowerThreshold) > 1 ) {
+        IncomeTaxBracket correctTaxBracket = BRACKET_0;
+        for (IncomeTaxBracket taxBracket : IncomeTaxBracket.values()) {
+            if (income.compareTo(taxBracket.lowerThreshold) == 1 ) {
                 correctTaxBracket = taxBracket;
             }
         }
