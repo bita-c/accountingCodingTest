@@ -3,7 +3,9 @@ package myob.payslip.impl;
 import myob.payslip.domain.Employee;
 import myob.payslip.domain.Payslip;
 import myob.payslip.utils.CsvMunger;
+import myob.payslip.utils.EmployeeFactory;
 import myob.payslip.utils.PayslipCalculator;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -26,14 +28,19 @@ public class PayslipProcessor {
 
         // call the csvmunger and get the Employees created
         List<Employee>  employees = new ArrayList<Employee>();
+        List<CSVRecord> csvRecords = new ArrayList<CSVRecord>();
         try {
-            employees = CsvMunger.readCsv(inputCsvPath);
+            csvRecords = CsvMunger.readCsv(inputCsvPath);
 
         } catch(IOException e ) {
 
             System.err.print("enable to read input");
           // create own exception class and throw appropriately
 
+        }
+
+        for (CSVRecord record : csvRecords) {
+            employees.add(EmployeeFactory.createEmployee(record));
         }
 
         // process each employee and calculate payslip values

@@ -5,7 +5,7 @@ public enum InputCsvColumn {
     FIRST_NAME("first name"),
     LAST_NAME("last name"),
     ANNUAL_SALARY("annual salary"),
-    SUPER_RATE("super rate (%)"),
+    SUPER_RATE("super rate"),
     PAYMENT_PERIOD("payment start date");
 
     private String columnName;

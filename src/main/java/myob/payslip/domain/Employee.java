@@ -53,7 +53,7 @@ public class Employee {
         this.payslips = payslips;
     }
 
-    public  List<Payslip> getPayslips() {
+    public List<Payslip> getPayslips() {
         return payslips;
     }
 }
