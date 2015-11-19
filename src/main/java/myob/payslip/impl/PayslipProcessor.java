@@ -17,16 +17,8 @@ public class PayslipProcessor {
 
     private static final Logger LOGGER = Logger.getLogger(PayslipProcessor.class);
 
-    public static void processPaySlips() {
+    public static void processPaySlips(String inputCsvPath, String outputCsvPath) {
 
-        // temporarily pass the path in the file system so we can get things running
-        String inputCsvPath = "/Users/bcrosby/workspace/myobExercise/src/main/resources/csv/input.csv";
-        String outputCsvPath = "/Users/bcrosby/workspace/myobExercise/src/main/resources/csv/output.csv";
-
-        // use spring to wire things up
-        // read the location of the input and output csv files
-
-        // call the csvmunger and get the Employees created
         List<Employee>  employees = new ArrayList<Employee>();
         List<CSVRecord> csvRecords;
         try {
@@ -53,17 +45,22 @@ public class PayslipProcessor {
             }
         }
 
-        // call the csvmunger and print the employees
         try {
             CsvMunger.writeCsv(employees, outputCsvPath);
 
         } catch (IOException e) {
-            System.err.print("enable to write output");
+            LOGGER.error("Unable to write to output file: " + outputCsvPath);
+            throw new PayslipProcessingException(e.getMessage());
         }
     }
 
 
     public static void main(String[] args){
-        processPaySlips();
+
+        // TODO: temporarily pass the path in the file system so we can get things running
+        String inputCsvPath = "/Users/bcrosby/workspace/myobExercise/src/main/resources/csv/input.csv";
+        String outputCsvPath = "/Users/bcrosby/workspace/myobExercise/src/main/resources/csv/output.csv";
+
+        processPaySlips(inputCsvPath, outputCsvPath);
     }
 }
