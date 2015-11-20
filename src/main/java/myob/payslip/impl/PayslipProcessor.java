@@ -57,10 +57,17 @@ public class PayslipProcessor {
 
     public static void main(String[] args){
 
-        // TODO: temporarily pass the path in the file system so we can get things running
-        String inputCsvPath = "/Users/bcrosby/workspace/myobExercise/src/main/resources/csv/input.csv";
-        String outputCsvPath = "/Users/bcrosby/workspace/myobExercise/src/main/resources/csv/output.csv";
+        if (args.length != 1) {
+            LOGGER.error("Need to provide input file path! ");
+            System.exit(1);
+        }
+
+        String inputCsvPath = args[0];
+
+        String outputCsvPath = "./output.csv";
 
         processPaySlips(inputCsvPath, outputCsvPath);
+
+        LOGGER.info("output is available under: " + outputCsvPath);
     }
 }

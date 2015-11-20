@@ -54,9 +54,10 @@ public class EmployeeFactory {
         }
 
         // break up the date string dd MMMM – dd MMMM, get the start and end dates
-        String[] paymentDates = paymentPeriod.split("–");
+        String[] paymentDates = paymentPeriod.split("-");
         String paymentStartDate;
         String paymentEndDate;
+
         if (paymentDates.length > 1) {
             paymentStartDate = paymentDates[0];
             paymentEndDate = paymentDates[1];
