@@ -1,6 +1,6 @@
 package myob.payslip.impl;
 
-import myob.payslip.healper.TestHelper;
+import myob.payslip.helper.TestHelper;
 import myob.payslip.utils.CsvMunger;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -35,7 +35,7 @@ public class PayslipProcessorTest {
         StringBuilder outputRow3 = new StringBuilder();
         StringBuilder outputRow4 = new StringBuilder();
 
-        PayslipProcessor.processPaySlips(csvInputFilePath, csvOutputFilePath);
+        PayslipProcessor.processPayslips(csvInputFilePath, csvOutputFilePath);
 
         List<CSVRecord> records = CsvMunger.readCsv(csvOutputFilePath);
 
