@@ -17,7 +17,15 @@ public class PayslipProcessor {
 
     private static final Logger LOGGER = Logger.getLogger(PayslipProcessor.class);
 
-    public static void processPaySlips(String inputCsvPath, String outputCsvPath) {
+    /**
+     * Takes a path to a csv input file containing information to process and generate
+     * payslip information for employees and writes a row per employee to the output csv file
+     * to which the path has been passed
+     *
+     * @param inputCsvPath
+     * @param outputCsvPath
+     */
+    public static void processPayslips(String inputCsvPath, String outputCsvPath) {
 
         List<Employee>  employees = new ArrayList<Employee>();
         List<CSVRecord> csvRecords;
@@ -35,9 +43,7 @@ public class PayslipProcessor {
 
         // process each employee and calculate payslip values
         for (Employee employee : employees) {
-
             for (Payslip payslip : employee.getPayslips()) {
-
                 payslip.setGrossIncome(PayslipCalculator.calculateGrossIncome(employee.getAnnualSalary()));
                 payslip.setIncomeTax(PayslipCalculator.calculateIncomeTax(employee.getAnnualSalary()));
                 payslip.setNetIncome(PayslipCalculator.calculateNetIncome(payslip.getGrossIncome(), payslip.getIncomeTax()));
@@ -54,7 +60,6 @@ public class PayslipProcessor {
         }
     }
 
-
     public static void main(String[] args){
 
         if (args.length != 1) {
@@ -66,7 +71,7 @@ public class PayslipProcessor {
 
         String outputCsvPath = "./output.csv";
 
-        processPaySlips(inputCsvPath, outputCsvPath);
+        processPayslips(inputCsvPath, outputCsvPath);
 
         LOGGER.info("output is available under: " + outputCsvPath);
     }

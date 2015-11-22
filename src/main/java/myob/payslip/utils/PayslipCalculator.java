@@ -13,6 +13,12 @@ public class PayslipCalculator {
     private PayslipCalculator() {
     }
 
+    /**
+     * Calculates and return grossIncome given an annualSalary.
+     *
+     * @param annualSalary
+     * @return GrossIncome
+     */
     public static BigDecimal calculateGrossIncome(BigDecimal annualSalary) {
 
         BigDecimal result = BigDecimal.ZERO;
@@ -24,6 +30,12 @@ public class PayslipCalculator {
         return result.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
+    /**
+     * Calculates and returns an IncomeTax given an annualSalary.
+     *
+     * @param annualSalary
+     * @return IncomeTax
+     */
     public static BigDecimal calculateIncomeTax(BigDecimal annualSalary) {
 
         BigDecimal result = BigDecimal.ZERO;
@@ -42,6 +54,13 @@ public class PayslipCalculator {
         return result.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
+    /**
+     * Calculates and returns a netIncomeTax given grossIncome and incomeTax values.
+     *
+     * @param grossIncome
+     * @param incomeTax
+     * @return NetIncome
+     */
     public static BigDecimal calculateNetIncome(BigDecimal grossIncome, BigDecimal incomeTax) {
 
         BigDecimal result = BigDecimal.ZERO;
@@ -55,6 +74,13 @@ public class PayslipCalculator {
         return result.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
+    /**
+     * Calculates and returns super on income given the superRate and grossIncome values.
+     *
+     * @param superRate
+     * @param grossIncome
+     * @return IncomeSuper
+     */
     public static BigDecimal calculateSuper(BigDecimal superRate, BigDecimal grossIncome) {
 
         BigDecimal result = BigDecimal.ZERO;

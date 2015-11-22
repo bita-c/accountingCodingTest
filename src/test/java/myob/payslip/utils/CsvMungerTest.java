@@ -1,6 +1,6 @@
 package myob.payslip.utils;
 
-import myob.payslip.healper.TestHelper;
+import myob.payslip.helper.TestHelper;
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
 

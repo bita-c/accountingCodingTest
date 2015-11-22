@@ -1,7 +1,7 @@
 package myob.payslip.utils;
 
 import myob.payslip.domain.Employee;
-import myob.payslip.healper.TestHelper;
+import myob.payslip.helper.TestHelper;
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Before;
 import org.junit.Rule;
@@ -81,7 +81,7 @@ public class EmployeeFactoryTest {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 01);
         cal.set(Calendar.MONTH, 02);
-        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
 
@@ -99,7 +99,6 @@ public class EmployeeFactoryTest {
         // here we check that if no year is provided, year is set to current year and also verify the whole date is set correctly
         assertEquals("Incorrect payment StartDate set", expectedStartDate, employee.getPayslips().get(0).getStartDate().toString());
         assertEquals("Incorrect payment EndDate set", expectedEndDate, employee.getPayslips().get(0).getEndDate().toString());
-
     }
 
     @Test
@@ -109,7 +108,7 @@ public class EmployeeFactoryTest {
         cal.set(Calendar.DAY_OF_MONTH, 01);
         cal.set(Calendar.MONTH, 02);
         cal.set(Calendar.YEAR, 2014);
-        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
 

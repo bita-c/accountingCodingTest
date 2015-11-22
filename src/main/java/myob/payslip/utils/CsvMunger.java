@@ -25,10 +25,18 @@ public final class CsvMunger {
     private static final String NEW_LINE_SEPARATOR = "\n";
     private static final Logger LOGGER = Logger.getLogger(CsvMunger.class);
 
-    // dont allow class to be instantiated, as its a util class
+    // don't allow class to be instantiated, as its a util class
     private CsvMunger() {
     }
 
+    /**
+     * Reads rows from csv file path passed as input and returns a List of CSVRecord
+     * associated with each row.
+     *
+     * @param filePath
+     * @return List containing CSVRecords
+     * @throws IOException
+     */
     public static List<CSVRecord> readCsv(String filePath) throws IOException {
 
         List<CSVRecord> csvRecords = new ArrayList<CSVRecord>();
@@ -65,6 +73,14 @@ public final class CsvMunger {
         return csvRecords;
     }
 
+    /**
+     * Writes to a csv filePath, a set of records containing payslip related information
+     * for each employee, in the list of employees passed.
+     *
+     * @param employees
+     * @param filePath
+     * @throws IOException
+     */
     public static void writeCsv(List<Employee> employees, String filePath) throws IOException {
 
         CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);

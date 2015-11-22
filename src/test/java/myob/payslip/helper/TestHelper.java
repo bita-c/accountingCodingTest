@@ -1,4 +1,4 @@
-package myob.payslip.healper;
+package myob.payslip.helper;
 
 import myob.payslip.domain.Employee;
 import myob.payslip.domain.Payslip;

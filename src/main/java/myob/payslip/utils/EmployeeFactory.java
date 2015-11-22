@@ -14,7 +14,13 @@ import java.util.Date;
 
 public class EmployeeFactory {
 
-    // creates employee objects from the csv rows
+    /**
+     * Given a valid CSVRecord, creates an Employee object based on the
+     * information in the CSVRecord.
+     *
+     * @param csvRecord
+     * @return Created employee
+     */
     public static Employee createEmployee(CSVRecord csvRecord) {
 
         if (csvRecord == null) {
@@ -82,6 +88,13 @@ public class EmployeeFactory {
         return employee;
     }
 
+    /**
+     * converts the string date passed, which may or may not contain year
+     * to a valid Date object.
+     *
+     * @param date
+     * @return Converted Date
+     */
     private static Date convertToAcceptedFormat(String date) {
 
         Calendar now = Calendar.getInstance();
